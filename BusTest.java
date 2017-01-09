@@ -9,6 +9,7 @@ public class BusTest {
   Person nina;
   Person tom;
   Person alex;
+  BusStop busStop;
 
   @Before
   public void before() {
@@ -16,6 +17,7 @@ public class BusTest {
     nina = new Person("Nina");
     tom = new Person("Tom");
     alex = new Person("Alex");
+    busStop = new BusStop();
   }
 
   @Test
@@ -39,5 +41,30 @@ public class BusTest {
     assertEquals(2, bus.passengerCount());
   }
 
+  @Test 
+  public void canJoinQueue() {
+    busStop.joinQueue(nina);
+    assertEquals(1, busStop.queueLength());
+  }
+
+  @Test 
+  public void getOnBus() {
+    busStop.joinQueue(nina);
+    assertEquals(1, busStop.queueLength());
+    bus.pickUpPassengers(busStop);
+    assertEquals(1, bus.passengerCount());
+    assertEquals(0, busStop.queueLength());
+  }
+
+  @Test 
+  public void queueTooLong() {
+    busStop.joinQueue(nina);
+    busStop.joinQueue(alex);
+    busStop.joinQueue(tom);
+    assertEquals(3, busStop.queueLength());
+    bus.pickUpPassengers(busStop);
+    assertEquals(2, bus.passengerCount());
+    assertEquals(1, busStop.queueLength());
+  }
 
 }

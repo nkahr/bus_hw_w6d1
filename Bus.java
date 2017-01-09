@@ -1,7 +1,7 @@
 public class Bus {
 
-  int seats;
-  Person[] passengers;
+  private int seats;
+  private Person[] passengers;
 
   public Bus(int seats) {
     this.seats = seats;
@@ -29,6 +29,18 @@ public class Bus {
 
   public boolean isFull() {
     return passengerCount() == seats;
+  }
+
+  public void pickUpPassengers(BusStop busStop) {
+    Person[] people = busStop.getQueue();
+    for (int i = 0; i < people.length; i++) {
+      if (people[i] != null) {
+        if (!isFull()) {
+          addPassenger(people[i]);
+          people[i] = null;
+        }
+      }
+    }
   }
 
 }
