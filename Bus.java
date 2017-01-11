@@ -1,11 +1,12 @@
+import java.util.ArrayList;
+
 public class Bus {
 
   private int seats;
-  private Person[] passengers;
+  private ArrayList<Person> passengers = new ArrayList<Person>();
 
   public Bus(int seats) {
     this.seats = seats;
-    this.passengers = new Person[seats];
   }
 
   public int seatCount() {
@@ -13,18 +14,12 @@ public class Bus {
   }
 
   public int passengerCount() {
-    int count = 0;
-    for (Person passenger : passengers) {
-      if (passenger != null) {
-        count++;
-      }
-    }
-    return count;
+    return passengers.size();
   }
 
   public void addPassenger(Person passenger) {
     if (isFull()) return;
-    passengers[passengerCount()] = passenger;
+    passengers.add(passenger);
   }
 
   public boolean isFull() {
@@ -32,14 +27,16 @@ public class Bus {
   }
 
   public void pickUpPassengers(BusStop busStop) {
-    Person[] people = busStop.getQueue();
-    for (int i = 0; i < people.length; i++) {
-      if (people[i] != null) {
-        if (!isFull()) {
-          addPassenger(people[i]);
-          people[i] = null;
-        }
+    ArrayList<Person> people = busStop.getQueue();
+    ArrayList<Person> toBeRemoved = new ArrayList<Person>();
+    for (Person person : people) {
+      if (!isFull()) {
+        addPassenger(person);
+        toBeRemoved.add(person);
       }
+    }
+    for (Person person : toBeRemoved) {
+      busStop.removePerson(person);
     }
   }
 

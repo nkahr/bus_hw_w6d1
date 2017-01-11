@@ -1,28 +1,23 @@
+import java.util.ArrayList;
+
 class BusStop {
 
-  private Person[] people;
+  private ArrayList<Person> people = new ArrayList<Person>();
 
-  public BusStop() {
-    this.people = new Person[10];
-  }
-
-  public Person[] getQueue() {
+  public ArrayList<Person> getQueue() {
     return this.people;
   }
 
   public int queueLength() {
-    int count = 0;
-    for (Person person : people) {
-      if (person != null) {
-        count++;
-      }
-    }
-    return count;
+    return people.size();
+  }
+
+  public void removePerson(Person person) {
+    people.remove(person);
   }
 
   public void joinQueue(Person person) {
-    if (queueLength() == people.length) return;
-    people[queueLength()] = person;
+    people.add(person);
   }
 
 }
